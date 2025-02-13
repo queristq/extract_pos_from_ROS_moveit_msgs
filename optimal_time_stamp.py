@@ -3,13 +3,14 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from scipy.optimize import minimize, NonlinearConstraint
 
-#reference: https://chatgpt.com/share/67ad93f8-3b74-8005-bbce-cb91061d5204
+#reference: https://chatgpt.com/share/67ad9d50-c364-8005-9327-e46f778e50d7
+
 
 # =====================================
 # 1. Load Waypoints Data from CSV File
 # =====================================
 # Ensure "waypoints.csv" is in your working directory.
-df = pd.read_csv("dropoff_plan_waypoints.csv")
+df = pd.read_csv("pickup_plan_waypoints.csv")
 q = df.values  # Shape: (N, 6), where N is the number of waypoints.
 N, num_joints = q.shape
 
@@ -148,3 +149,34 @@ plt.suptitle("Joint Accelerations: Baseline vs. Optimized Timing", y=0.92, fonts
 plt.tight_layout()
 plt.savefig("acceleration_comparison.png")
 print("Acceleration comparison plot saved as 'acceleration_comparison.png'")
+
+# ========================================================
+# 10. Compute and Visualize Velocity Profiles
+# ========================================================
+def compute_velocities(t, q):
+    """
+    Compute the velocity for each segment using finite differences:
+      v = (q[i+1] - q[i]) / (t[i+1]-t[i])
+    Returns:
+      velocities: Array of shape (N-1, num_joints).
+      t_vel: Midpoint time stamps for each segment.
+    """
+    dt = np.diff(t)
+    velocities = (q[1:] - q[:-1]) / dt[:, None]
+    t_vel = 0.5 * (t[:-1] + t[1:])
+    return velocities, t_vel
+
+vel_equal, t_vel_equal = compute_velocities(t_equal, q)
+vel_opt, t_vel_opt = compute_velocities(t_opt, q)
+
+fig, axs = plt.subplots(num_joints, 1, figsize=(10, 12), sharex=True)
+for j in range(num_joints):
+    axs[j].plot(t_vel_equal, vel_equal[:, j], 'o-', label='Equal spacing')
+    axs[j].plot(t_vel_opt, vel_opt[:, j], 's-', label='Optimized')
+    axs[j].set_ylabel(f'Joint {j+1} Velocity')
+    axs[j].legend(loc='upper right')
+axs[-1].set_xlabel('Time [s]')
+plt.suptitle("Joint Velocities: Baseline vs. Optimized Timing", y=0.92, fontsize=14)
+plt.tight_layout()
+plt.savefig("velocity_comparison.png")
+print("Velocity comparison plot saved as 'velocity_comparison.png'")
