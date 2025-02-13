@@ -3,6 +3,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from scipy.optimize import minimize, NonlinearConstraint
 
+#reference: https://chatgpt.com/share/67ad93f8-3b74-8005-bbce-cb91061d5204
+
 # =====================================
 # 1. Load Waypoints Data from CSV File
 # =====================================
