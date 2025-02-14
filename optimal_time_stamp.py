@@ -19,7 +19,7 @@ N, num_joints = q.shape
 # =====================================
 # Example acceleration limits for each joint.
 # Adjust these to match your robot's actual limits.
-acc_limits = np.array([2.0, 2.0, 2.0, 3.0, 4.0, 5.0])  # [rad/s²]
+acc_limits = np.array([5.0, 2.0, 2.0, 5.0, 5.0, 8.0])  # [rad/s²]
 
 # ======================================================
 # 3. Define the Optimization Problem and Helper Functions
