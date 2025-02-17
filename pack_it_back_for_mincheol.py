@@ -3,7 +3,7 @@ import pandas as pd
 import json
 
 # Load the optimized joint trajectory data from CSV
-csv_file = "optimized_joint_trajectory_with_vel_acc.csv"
+csv_file = "final_trajectory_bspline.csv"
 df = pd.read_csv(csv_file)
 
 # Extract joint names (assuming they follow the format 'pos_joint_x')

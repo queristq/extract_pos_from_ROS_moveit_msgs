@@ -3,7 +3,7 @@ import numpy as np
 import csv
 
 # Load the pickle file
-with open("dropoff_plan.pkl", "rb") as file:
+with open("pickup_plan.pkl", "rb") as file:
     data = pickle.load(file)
 
 # Save raw data to an output file for debugging (optional)
